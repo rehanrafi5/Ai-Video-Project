@@ -1,10 +1,11 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class ConveyorController : MonoBehaviour
 {
     public static ConveyorController Instance;
 
-    public bool IsStopped { get; private set; }
 
     [Header("Refs")]
     public CameraSwitcher cameraSwitcher;
@@ -14,8 +15,13 @@ public class ConveyorController : MonoBehaviour
     [Header("UI")]
     public GameObject decisionPanel;
 
+    [Header("Cutscene")]
+    public PlayableDirector cutsceneDirector; // where item moves after cut
+
     private GameObject currentDetectedItem;
     private ProductData currentData;
+
+    public GameObject Trigger;
 
     void Awake()
     {
@@ -25,22 +31,15 @@ public class ConveyorController : MonoBehaviour
     // 🚨 Called from trigger
     public void HandleBadAppleDetected(GameObject item)
     {
-        IsStopped = true;
-
         currentDetectedItem = item;
         currentData = item.GetComponent<ProductData>();
-
-        if (spawner != null)
-            spawner.isStopped = true;
 
         if (cameraSwitcher != null)
             cameraSwitcher.SwitchToCamera(machineCameraIndex);
 
-        if (decisionPanel != null)
-            decisionPanel.SetActive(true);
+        RejectProduct();
     }
-
-    // ✅ APPROVE BUTTON (GOOD PRODUCT)
+    
     public void ApproveProduct()
     {
         if (ProductLogManager.instance != null && currentData != null)
@@ -51,8 +50,7 @@ public class ConveyorController : MonoBehaviour
         ResumeSystem();
     }
 
-    // ❌ REJECT BUTTON (BAD PRODUCT)
-    [ContextMenu("RejectProduct")]
+    // ❌ REJECT (play cutscene + remove item)
     public void RejectProduct()
     {
         if (currentData != null && ProductLogManager.instance != null)
@@ -62,18 +60,61 @@ public class ConveyorController : MonoBehaviour
 
         if (currentDetectedItem != null)
         {
-            Destroy(currentDetectedItem);
+            StartCoroutine(HandleRejectSequence());
         }
+        else
+        {
+            ResumeSystem();
+        }
+    }
+    
+
+    IEnumerator HandleRejectSequence()
+    {
+        decisionPanel.SetActive(false);
 
         ResumeSystem();
-    }
+        Trigger.SetActive(true);
 
+        // 🐢 SLOW ALL MOVEMENT
+        ProductSpawner.spawnMultiplier = 0.2f; // slow spawn
+        ProductMover.globalSpeedMultiplier = 0.2f; // slow movement
+
+        // ❗ DISABLE ALL NORMAL CAMERAS FIRST
+        if (cameraSwitcher != null)
+        {
+            cameraSwitcher.DisableAllCameras();
+        }
+
+        // 🎬 Play cutscene
+        if (cutsceneDirector != null)
+        {
+            cutsceneDirector.gameObject.SetActive(true);
+            cutsceneDirector.Play();
+
+            yield return new WaitForSeconds(4.2f);
+        }
+        
+        ProductSpawner.spawnMultiplier = 1f;
+        ProductMover.globalSpeedMultiplier = 1f;
+
+        // 🎥 TURN OFF CUTSCENE CAMERA
+        if (cutsceneDirector != null)
+        {
+            Camera cutCam = cutsceneDirector.GetComponentInChildren<Camera>();
+            if (cutCam != null)
+                cutCam.gameObject.SetActive(false);
+        }
+
+        // ⚡ RESTORE SPEED AFTER ROUTINE
+        
+        cameraSwitcher.SwitchToCamera(0);
+
+        Trigger.SetActive(false);
+    }
+    
     void ResumeSystem()
     {
-        IsStopped = false;
-
-        if (spawner != null)
-            spawner.isStopped = false;
 
         if (cameraSwitcher != null)
             cameraSwitcher.SwitchToCamera(0);

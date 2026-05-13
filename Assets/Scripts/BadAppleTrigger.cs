@@ -13,6 +13,8 @@ public class BadAppleTrigger : MonoBehaviour
         {
             if (ConveyorController.Instance != null)
             {
+                ProductLogManager.instance.AddProduct(data);
+                
                 ConveyorController.Instance.HandleBadAppleDetected(other.gameObject);
             }
         }
@@ -20,8 +22,6 @@ public class BadAppleTrigger : MonoBehaviour
         {
             // 🟢 GOOD PRODUCT → log immediately
             ProductLogManager.instance.AddProduct(data);
-
-            Destroy(other.gameObject);
         }
     }
 }

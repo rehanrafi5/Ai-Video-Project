@@ -21,17 +21,23 @@ public class ProductLogManager : MonoBehaviour
         GameObject item = Instantiate(logItemPrefab, contentParent);
         ProductLogItemUI ui = item.GetComponent<ProductLogItemUI>();
 
-        if (data != null && !data.isBad && data.uiSprite != null)
+        if (data == null)
         {
-            ui.SetImage(data.uiSprite);
+            ui.Setup(goodProductSprite, null);
+            return;
         }
-        else if (data != null && data.isBad)
+
+        Sprite spriteToUse;
+
+        if (data.isBad)
         {
-            ui.SetImage(data.uiSprite);
+            spriteToUse = data.uiSprite != null ? data.uiSprite : goodProductSprite;
         }
         else
         {
-            ui.SetImage(goodProductSprite);
+            spriteToUse = data.uiSprite != null ? data.uiSprite : goodProductSprite;
         }
+
+        ui.Setup(spriteToUse, data);
     }
 }

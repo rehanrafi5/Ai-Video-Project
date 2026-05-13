@@ -45,4 +45,12 @@ public class CameraSwitcher : MonoBehaviour
         currentIndex = index;
         ActivateCamera(currentIndex);
     }
+    
+    public void DisableAllCameras()
+    {
+        for (int i = 0; i < cameras.Length; i++)
+        {
+            cameras[i].gameObject.SetActive(false);
+        }
+    }
 }

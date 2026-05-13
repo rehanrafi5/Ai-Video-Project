@@ -8,13 +8,12 @@ public class ProductSpawner : MonoBehaviour
     public TrayPath path;
 
     public float spawnInterval = 2f;
+    public static float spawnMultiplier = 1f;
 
     private float timer;
 
     private int fineCountTarget; // how many fine before bad
     private int currentFineCount = 0;
-    
-    public bool isStopped = false;
 
     void Start()
     {
@@ -23,11 +22,10 @@ public class ProductSpawner : MonoBehaviour
 
     void Update()
     {
-        if (isStopped) return;
 
         if (path == null || path.waypoints.Length == 0) return;
 
-        timer += Time.deltaTime;
+        timer += Time.deltaTime * spawnMultiplier;
 
         if (timer >= spawnInterval)
         {
@@ -40,7 +38,6 @@ public class ProductSpawner : MonoBehaviour
     {
         GameObject prefabToSpawn;
 
-        // 🎯 If reached target → spawn bad apple
         if (currentFineCount >= fineCountTarget)
         {
             if (notFineApplePrefabs != null && notFineApplePrefabs.Length > 0)
@@ -48,11 +45,7 @@ public class ProductSpawner : MonoBehaviour
                 int randIndex = Random.Range(0, notFineApplePrefabs.Length);
                 prefabToSpawn = notFineApplePrefabs[randIndex];
             }
-            else
-            {
-                Debug.LogWarning("No not-fine prefabs assigned!");
-                return;
-            }
+            else return;
 
             currentFineCount = 0;
             SetNextBatch();
@@ -76,6 +69,6 @@ public class ProductSpawner : MonoBehaviour
 
     void SetNextBatch()
     {
-        fineCountTarget = Random.Range(3, 6); // 4 to 6
+        fineCountTarget = Random.Range(4, 7); // 4 to 6
     }
 }
