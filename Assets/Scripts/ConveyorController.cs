@@ -22,6 +22,7 @@ public class ConveyorController : MonoBehaviour
     private ProductData currentData;
 
     public GameObject Trigger;
+    
 
     void Awake()
     {
