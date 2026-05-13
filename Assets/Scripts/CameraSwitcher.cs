@@ -37,4 +37,12 @@ public class CameraSwitcher : MonoBehaviour
             cameras[i].gameObject.SetActive(i == index);
         }
     }
+    
+    public void SwitchToCamera(int index)
+    {
+        if (index < 0 || index >= cameras.Length) return;
+
+        currentIndex = index;
+        ActivateCamera(currentIndex);
+    }
 }
