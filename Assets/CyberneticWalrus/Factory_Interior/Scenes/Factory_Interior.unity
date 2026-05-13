@@ -29281,6 +29281,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: roller (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e5caabbdfb61fc740ab2025a582fd63e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 946030022645078930, guid: e5caabbdfb61fc740ab2025a582fd63e, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -36326,6 +36330,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Conveyor_Belt_01_End_Prefab_02
       objectReference: {fileID: 0}
+    - target: {fileID: 2914189187196843219, guid: 9486fbb9fc8470440b2d26265e1eb773, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6999952152098893219, guid: 9486fbb9fc8470440b2d26265e1eb773, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -37414,6 +37422,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: e5caabbdfb61fc740ab2025a582fd63e, type: 3}
       propertyPath: m_Name
       value: roller (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e5caabbdfb61fc740ab2025a582fd63e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 946030022645078930, guid: e5caabbdfb61fc740ab2025a582fd63e, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -49696,6 +49708,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: e5caabbdfb61fc740ab2025a582fd63e, type: 3}
       propertyPath: m_Name
       value: roller (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e5caabbdfb61fc740ab2025a582fd63e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 946030022645078930, guid: e5caabbdfb61fc740ab2025a582fd63e, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
