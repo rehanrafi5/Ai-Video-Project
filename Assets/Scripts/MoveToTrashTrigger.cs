@@ -15,6 +15,7 @@ public class MoveToTrashTrigger : MonoBehaviour
 
             if (mover != null && trashPath != null)
             {
+                mover.allowRotation = false;
                 mover.SetPath(trashPath);
             }
         }

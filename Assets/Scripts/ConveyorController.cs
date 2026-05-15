@@ -109,7 +109,7 @@ public class ConveyorController : MonoBehaviour
 
         // ⚡ RESTORE SPEED AFTER ROUTINE
         
-        cameraSwitcher.SwitchToCamera(0);
+        cameraSwitcher.SwitchToCamera(2);
 
         Trigger.SetActive(false);
     }

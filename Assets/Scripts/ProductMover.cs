@@ -11,6 +11,8 @@ public class ProductMover : MonoBehaviour
     public static float globalSpeedMultiplier = 1f;
 
     private int currentIndex = 0;
+    
+    public bool allowRotation = true;
 
     void OnEnable()
     {
@@ -33,25 +35,33 @@ public class ProductMover : MonoBehaviour
 
     void Update()
     {
-
         if (path == null || path.waypoints.Length < 2) return;
 
         Transform target = path.waypoints[currentIndex];
 
         float finalSpeed = speed * globalSpeedMultiplier;
 
+        // Move
         transform.position = Vector3.MoveTowards(
             transform.position,
             target.position,
             finalSpeed * Time.deltaTime
         );
 
+        // Direction
         Vector3 dir = (target.position - transform.position).normalized;
-        if (dir != Vector3.zero)
+
+        // ✅ ROTATION CONTROL HERE
+        if (allowRotation && dir != Vector3.zero)
         {
-            transform.forward = Vector3.Lerp(transform.forward, dir, 10f * Time.deltaTime);
+            transform.forward = Vector3.Lerp(
+                transform.forward,
+                dir,
+                10f * Time.deltaTime
+            );
         }
 
+        // Waypoint reached
         if (Vector3.Distance(transform.position, target.position) < 0.05f)
         {
             currentIndex++;
